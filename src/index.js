@@ -12,21 +12,54 @@ app.get('/', (req, res) => {
   res.send('root get request');
 });
 
-let directMessages = {
-
-};
-
 let users = {
-
+  1: {
+    id: '1',
+    username: 'Johnny Hopkins',
+  },
+  2: {
+    id: '2',
+    username: 'Sloan Kettering',
+  }
 };
+
+let directMessages = {
+  1: {
+    id: 1,
+    text: 'Hello World',
+  },
+  2: {
+    id: 2,
+    text: 'Hello World 2',
+  },
+  3: {
+    id: 3,
+    text: 'Hello World 3',
+  },
+  4: {
+    id: 4,
+    text: 'Hello World 4',
+  }
+};
+
+app.get('/users', (req, res) => {
+  return res.send(Object.values(users));
+});
+
+app.get('/users/:userid', (req, res) => {
+  return res.send(users[req.params.userid]);
+});
 
 app.get('/direct-messages'), (req, res) => {
   return res.send(Object.values(directMessages));
 };
 
-app.post('/direct-messages', (req, res) => {
+app.get('direct-messages/:dmid', (req, res) => {
+  return res.sendStatus(directMessages[req.params.dmid]);
   
-  /*
+});
+
+app.post('/direct-messages', (req, res) => {
   const id = uuidv4();
   const directMessage = {
     id,
@@ -34,12 +67,6 @@ app.post('/direct-messages', (req, res) => {
   };
   directMessages[id] = directMessage;
   return res.send(directMessage);
-  */
-});
-
-app.get('direct-messages/:dmid', (req, res) => {
-  return res.sendStatus(directMessages[req.params.dmid]);
-  
 });
 
 app.listen(process.env.PORT, () =>
