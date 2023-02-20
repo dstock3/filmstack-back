@@ -50,13 +50,12 @@ app.get('/users/:userid', (req, res) => {
   return res.send(users[req.params.userid]);
 });
 
-app.get('/direct-messages'), (req, res) => {
+app.get('/direct-messages', (req, res) => {
   return res.send(Object.values(directMessages));
-};
+});
 
-app.get('direct-messages/:dmid', (req, res) => {
-  return res.sendStatus(directMessages[req.params.dmid]);
-  
+app.get('/direct-messages/:dmid', (req, res) => {
+  return res.send(directMessages[req.params.dmid]);
 });
 
 app.post('/direct-messages', (req, res) => {
