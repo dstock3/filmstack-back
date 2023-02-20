@@ -68,6 +68,20 @@ app.post('/direct-messages', (req, res) => {
   return res.send(directMessage);
 });
 
+app.delete('/direct-messages/:dmid', (req, res) => {
+  const { 
+    [req.params.dmid]: directMessage,
+    ...otherMessages 
+  } = directMessages;
+  
+  directMessages = otherMessages;
+  return res.send(directMessage);
+});
+
+app.get('/session/', (req, res) => {
+  return res.send(req.me.id);
+});
+
 app.listen(process.env.PORT, () =>
   console.log(`Example app listening on port ${process.env.PORT}!`),
 );
