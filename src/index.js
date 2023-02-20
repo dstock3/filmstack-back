@@ -7,6 +7,10 @@ import routes from './routes';
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
 app.use((req, res, next) => {
   req.context = {
     models,
@@ -15,58 +19,13 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
-
-app.use('session', routes.session);
-app.use('users', routes.user);
-app.use('direct-messages', routes.directMessages);
+app.use('/session', routes.session);
+app.use('/users', routes.user);
+app.use('/direct-messages', routes.directMessages);
 
 app.get('/', (req, res) => {
   console.log(models)
   res.send('root get request');
-});
-
-app.get('/session/', (req, res) => {
-  return res.send(req.context.models.users[req.context.me.id]);
-});
-
-app.get('/users', (req, res) => {
-  return res.send(Object.values(req.context.models.users));
-});
-
-app.get('/users/:userid', (req, res) => {
-  return res.send(req.context.models.users[req.params.userid]);
-});
-
-app.get('/direct-messages', (req, res) => {
-  return res.send(Object.values(req.context.models.directMessages));
-});
-
-app.get('/direct-messages/:dmid', (req, res) => {
-  return res.send(req.context.models.directMessages[req.params.dmid]);
-});
-
-app.post('/direct-messages', (req, res) => {
-  const id = uuidv4();
-  const directMessage = {
-    id,
-    text: req.body.text,
-    userId: req.context.me.id,
-  };
-  req.context.models.directMessages[id] = directMessage;
-  return res.send(directMessage);
-});
-
-app.delete('/direct-messages/:dmid', (req, res) => {
-  const { 
-    [req.params.dmid]: directMessage,
-    ...otherMessages 
-  } = req.context.models.directMessages;
-
-  req.context.models.directMessages = otherMessages;
-  return res.send(directMessage);
 });
 
 app.listen(process.env.PORT, () =>

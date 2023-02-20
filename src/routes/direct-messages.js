@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
   return res.send(Object.values(req.context.models.directMessages));
 });
 
-router.get('/:messageId', (req, res) => {
+router.get('/:dmid', (req, res) => {
   return res.send(req.context.models.directMessages[req.params.dmid]);
 });
 
@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
   return res.send(directMessage);
 });
 
-router.delete('/:messageId', (req, res) => {
+router.delete('/:dmid', (req, res) => {
   const {
     [req.params.dmid]: message,
     ...otherMessages
