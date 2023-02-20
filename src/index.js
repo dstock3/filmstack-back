@@ -12,7 +12,20 @@ app.get('/', (req, res) => {
   res.send('root get request');
 });
 
-app.post('direct-messages', (req, res) => {
+let directMessages = {
+
+};
+
+let users = {
+
+};
+
+app.get('/direct-messages'), (req, res) => {
+  return res.send(Object.values(directMessages));
+};
+
+app.post('/direct-messages', (req, res) => {
+  
   /*
   const id = uuidv4();
   const directMessage = {
