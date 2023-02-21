@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
-import models from './models';
+import models, { sequelize } from './models';
 import routes from './routes';
 
 const app = express();
@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use((req, res, next) => {
+  //define context for each request here and pass it to the resolvers
   req.context = {
     models,
     me: models.users[1],
@@ -23,10 +24,13 @@ app.use('/users', routes.user);
 app.use('/direct-messages', routes.directMessages);
 
 app.get('/', (req, res) => {
-  console.log(models)
   res.send('root get request');
 });
 
-app.listen(process.env.PORT, () =>
-  console.log(`Example app listening on port ${process.env.PORT}!`),
-);
+const eraseDatabaseOnSync = true;
+
+sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
+  app.listen(process.env.PORT, () =>
+    console.log(`Example app listening on port ${process.env.PORT}!`),
+  );
+});
