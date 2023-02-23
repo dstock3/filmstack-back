@@ -44,14 +44,16 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cors_1.default)());
-app.use((req, res, next) => {
+app.use((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     //define context for each request here and pass it to the resolvers
+    const users = yield models_1.default.User.findAll();
+    const me = users[1] || null;
     req.context = {
         models: models_1.default,
-        me: models_1.default.users[1],
+        me,
     };
     next();
-});
+}));
 app.use('/session', routes_1.default.session);
 app.use('/users', routes_1.default.user);
 app.use('/direct-messages', routes_1.default.directMessages);

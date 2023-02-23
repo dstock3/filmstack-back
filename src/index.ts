@@ -10,14 +10,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   //define context for each request here and pass it to the resolvers
+  const users = await models.User.findAll();
+  const me = users[1] || null;
+
   req.context = {
     models,
-    me: models.users[1],
-  }
+    me,
+  };
   next();
 });
+
 
 app.use('/session', routes.session);
 app.use('/users', routes.user);
