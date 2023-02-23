@@ -14,13 +14,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const uuid_1 = require("uuid");
 const express_1 = require("express");
 const router = (0, express_1.Router)();
-router.get('/', (req, res) => {
+router.route('/')
+    .get((req, res) => {
     return res.send(Object.values(req.context.models.directMessages));
-});
-router.get('/:dmid', (req, res) => {
-    return res.send(req.context.models.directMessages[req.params.dmid]);
-});
-router.post('/', (req, res) => {
+})
+    .post((req, res) => {
     const id = (0, uuid_1.v4)();
     const directMessage = {
         id,
@@ -30,9 +28,13 @@ router.post('/', (req, res) => {
     req.context.models.directMessages[id] = directMessage;
     return res.send(directMessage);
 });
-router.delete('/:dmid', (req, res) => {
+router.route('/:dmid')
+    .get((req, res) => {
+    return res.send(req.context.models.directMessages[req.params.dmid]);
+})
+    .delete((req, res) => {
     const _a = req.context.models.directMessages, _b = req.params.dmid, message = _a[_b], otherMessages = __rest(_a, [typeof _b === "symbol" ? _b : _b + ""]);
     req.context.models.directMessages = otherMessages;
-    return res.send(directMessage);
+    return res.send(message);
 });
 exports.default = router;
