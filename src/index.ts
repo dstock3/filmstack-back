@@ -22,7 +22,6 @@ app.use(async (req, res, next) => {
   next();
 });
 
-
 app.use('/session', routes.session);
 app.use('/users', routes.user);
 app.use('/direct-messages', routes.directMessages);

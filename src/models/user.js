@@ -33,6 +33,6 @@ const getUserModel = (sequelize, { DataTypes }) => {
     };
   
     return User;
-  };
+};
   
   export default getUserModel;
