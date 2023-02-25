@@ -11,14 +11,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const getUserModel = (sequelize, { DataTypes }) => {
     const User = sequelize.define('user', {
-        //for now, the user model will have a username, email, and password
-        username: {
+        handle: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+            },
+        },
+        login: {
             type: DataTypes.STRING,
             unique: true,
             allowNull: false,
             validate: {
                 notEmpty: true,
+                isEmail: true,
             },
+        },
+        description: {
+            type: DataTypes.STRING,
+        },
+        theme: {
+            type: DataTypes.STRING,
+        },
+        metadataIsAllowed: {
+            type: DataTypes.BOOLEAN,
+        },
+        emailNotifications: {
+            type: DataTypes.BOOLEAN,
+        },
+        searchData: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+        },
+        friends: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
         },
     });
     User.associate = (models) => {
@@ -27,15 +52,8 @@ const getUserModel = (sequelize, { DataTypes }) => {
     };
     User.findByLogin = (login) => __awaiter(void 0, void 0, void 0, function* () {
         let user = yield User.findOne({
-            where: { username: login },
-            //findByLogin is a custom method that will be employed to find a user by either their username or email
+            where: { login },
         });
-        if (!user) {
-            user = yield User.findOne({
-                where: { email: login },
-            });
-            //if the user is not found by username, then the method will attempt to find the user by email
-        }
         return user;
     });
     return User;
