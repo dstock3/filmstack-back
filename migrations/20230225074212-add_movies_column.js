@@ -5,8 +5,9 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.addColumn('users', 'movies', {
-      type: Sequelize.JSONB,
-      allowNull: true,
+      type: DataTypes.ARRAY(DataTypes.JSON),
+      allowNull: false,
+      defaultValue: JSON.stringify([]),
     });
   },
 
