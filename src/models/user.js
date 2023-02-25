@@ -1,6 +1,5 @@
 const getUserModel = (sequelize, { DataTypes }) => {
     const User = sequelize.define('user', {
-
         handle: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -20,19 +19,24 @@ const getUserModel = (sequelize, { DataTypes }) => {
         description: {
             type: DataTypes.STRING,
         },
-            theme: {
+        theme: {
             type: DataTypes.STRING,
         },
-            metadataIsAllowed: {
+        metadataIsAllowed: {
             type: DataTypes.BOOLEAN,
         },
-            emailNotifications: {
+        emailNotifications: {
             type: DataTypes.BOOLEAN,
         },
-            searchData: {
+        searchData: {
             type: DataTypes.ARRAY(DataTypes.STRING),
         },
-            friends: {
+        posts: {
+            type: DataTypes.JSONB,
+            allowNull: false,
+            defaultValue: [],
+        },
+        friends: {
             type: DataTypes.ARRAY(DataTypes.STRING),
         },
     });
@@ -54,4 +58,3 @@ const getUserModel = (sequelize, { DataTypes }) => {
 };
   
 export default getUserModel;
-  

@@ -42,6 +42,11 @@ const getUserModel = (sequelize, { DataTypes }) => {
         searchData: {
             type: DataTypes.ARRAY(DataTypes.STRING),
         },
+        posts: {
+            type: DataTypes.JSONB,
+            allowNull: false,
+            defaultValue: [],
+        },
         friends: {
             type: DataTypes.ARRAY(DataTypes.STRING),
         },
